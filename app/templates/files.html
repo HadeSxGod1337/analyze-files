@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Скачанные файлы{% endblock %}
+{% block content %}
+<h1>Скачанные файлы</h1>
+
+<div id="selection-controls">
+  <button id="select-page">Выбрать все на странице</button>
+  <button id="select-all">Выбрать вообще все</button>
+  <button id="clear-selection">Сбросить выбор</button>
+  <span id="selection-count"></span>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Имя файла</th>
+      <th><a href="?page=1&sort={{ 'asc' if sort == 'desc' else 'desc' }}">Время скачивания</a></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for file in files %}
+    <tr>
+      <td><input type="checkbox" class="file-checkbox" value="{{ file.name }}"></td>
+      <td>{{ file.name }}</td>
+      <td class="downloaded-at" data-utc="{{ file.downloaded_at }}"></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<nav id="pagination">
+  {% if page > 1 %}<a href="?page={{ page - 1 }}&sort={{ sort }}">Назад</a>{% endif %}
+  <span>{{ page }} из {{ total_pages }}</span>
+  {% if page < total_pages %}<a href="?page={{ page + 1 }}&sort={{ sort }}">Вперёд</a>{% endif %}
+</nav>
+
+<div id="calculate-controls">
+  <button id="calculate-btn">Произвести расчёты</button>
+  <label><input type="checkbox" id="recalculate"> Пересчитать заново из файлов</label>
+</div>
+
+<section id="results" hidden>
+  <section id="anomalies" hidden>
+    <h2>Аномалии</h2>
+    <table id="anomalies-table"></table>
+  </section>
+  <section id="errors" hidden>
+    <h2>Не удалось прочитать</h2>
+    <ul id="errors-list"></ul>
+  </section>
+  <h2>Общая статистика</h2>
+  <table id="total-table"></table>
+  <h2>По файлам</h2>
+  <table id="per-file-table"></table>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="/static/files.js"></script>
+{% endblock %}

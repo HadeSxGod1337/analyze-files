@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Скачивание{% endblock %}
+{% block content %}
+<h1>Скачивание каталога</h1>
+<button id="start-btn">Скачать данные</button>
+
+<dl id="progress">
+  <dt>Старт (НСК)</dt>
+  <dd id="started-at">-</dd>
+  <dt>Статус</dt>
+  <dd id="state">{{ status.state }}</dd>
+  <dt>В каталоге</dt>
+  <dd id="in-catalog">{{ status.in_catalog }}</dd>
+  <dt>Получено названий</dt>
+  <dd id="names-seen">{{ status.names_seen }}</dd>
+  <dt>Скачано</dt>
+  <dd id="downloaded">{{ status.downloaded }} из {{ status.names_seen }}</dd>
+  <dt>Не скачались</dt>
+  <dd id="failed">{{ status.failed | length }}</dd>
+  <dt>Последний батч (НСК)</dt>
+  <dd id="last-batch-at">-</dd>
+  <dt>Прошло</dt>
+  <dd id="elapsed">-</dd>
+  <dt>Завершено (НСК)</dt>
+  <dd id="finished-at">-</dd>
+</dl>
+
+<p id="blocked-note" hidden></p>
+<p id="error-note" hidden></p>
+{% endblock %}
+{% block scripts %}
+<script src="/static/download.js"></script>
+{% endblock %}
